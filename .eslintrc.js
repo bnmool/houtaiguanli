@@ -11,6 +11,7 @@ module.exports = {
   },
   // JavaScript 语言选项
   parserOptions: {
+    parser: 'babel-eslint',
     // ECMAScript 版本
     ecmaVersion: 6,
     sourceType: "module", //module
@@ -328,7 +329,7 @@ module.exports = {
     // 强制在对象字面量的属性中键和值之间使用一致的间距
     "key-spacing": [2, { beforeColon: false, afterColon: true }],
     // 强制使用一致的换行风格
-    "linebreak-style": [1, "unix"],
+    "linebreak-style": [0, "error", "windows"],
     // 要求在注释周围有空行 ( 要求在块级注释之前有一空行)
     "lines-around-comment": [1, { beforeBlockComment: true }],
     // 强制一致地使用函数声明或函数表达式，方法定义风格，参数：

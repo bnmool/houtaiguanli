@@ -11,7 +11,7 @@ import "nprogress/nprogress.css"; // 引入进度条样式
 // next(地址) 跳转到某个地址
 const whiteList = ["/login", "/404"]; // 定义白名单
 router.beforeEach(async (to, from, next) => {
-  nprogress.start(); // 开启进度条的意思
+  nprogress.start(); // 开启进度条
   if (store.getters.token) {
     // 只有有token的情况下 才能获取资料
     //   如果有token
@@ -19,6 +19,13 @@ router.beforeEach(async (to, from, next) => {
       // 如果要访问的是 登录页
       next("/"); // 跳到主页  // 有token 用处理吗？不用
     } else {
+      // 只有放过才获取用户资料
+      // 如果 vuex 中已经有用户资料的 id 表示已经有资料了不需要重新获取了，如果没有 id 才需要获取
+      if (!store.getters.userId) {
+        // 没有用户资料
+        // 获取用户资料
+        await store.dispatch("user/getUserInfo");
+      }
       next();
     }
   } else {
@@ -27,7 +34,7 @@ router.beforeEach(async (to, from, next) => {
       //  表示要去的地址在白名单
       next();
     } else {
-      next();
+      next('/login');
     }
   }
   nprogress.done(); // 解决手动切换地址时 进度条不关闭的问题
